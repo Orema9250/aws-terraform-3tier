@@ -39,7 +39,7 @@ module "app" {
   public_subnet_ids = module.vpc.public_subnet_ids
   api_cert_arn = module.frontend.certificate_arn
   ecr_image_url = module.ecr.ecr_image_url
-  ecr_image_tag = "1.0"
+  ecr_image_tag = var.ecr_image_tag
 }
 
 module "rds" {

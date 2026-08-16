@@ -107,3 +107,8 @@ variable "api_domain_name" {
   description = "The domain name of api"
   type        = string
 }
+
+variable "ecr_image_tag" {
+  description = "Git commit SHA used to identify the backend Docker image"
+  type        = string
+}
