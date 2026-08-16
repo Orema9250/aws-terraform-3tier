@@ -200,10 +200,10 @@ resource "aws_iam_role_policy" "ecr_pull" {
 resource "aws_autoscaling_group" "app_asg" {
   name                      = "app-autoscaling-group"
   max_size                  = 4
-  min_size                  = 0
+  min_size                  = 2
   health_check_grace_period = 300
   health_check_type         = "ELB"
-  desired_capacity          = 0
+  desired_capacity          = 2
   vpc_zone_identifier       = var.private_subnet_ids
   launch_template {
     id      = aws_launch_template.app_launch_template.id
