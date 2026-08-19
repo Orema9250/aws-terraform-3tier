@@ -101,7 +101,7 @@ resource "aws_lb_listener" "front_end" {
 }
 
 resource "aws_iam_instance_profile" "app_profile" {
-  name = "app-instance_profile"
+  name = "app-instance-profile"
   role = aws_iam_role.instance_role.name
 }
 
