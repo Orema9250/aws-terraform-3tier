@@ -47,7 +47,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
         Effect = "Allow"
 
         Action = [
-          "ecr:GetAuthorizationToken"
+          "ecr:GetAuthorizationToken", "ecr:CreateRepository",
         ]
 
         Resource = "*"
@@ -62,7 +62,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
           "ecr:CompleteLayerUpload",
           "ecr:InitiateLayerUpload",
           "ecr:PutImage",
-          "ecr:UploadLayerPart"
+          "ecr:UploadLayerPart",
         ]
 
         Resource = "arn:aws:ecr:us-east-1:556173312932:repository/backend"
@@ -88,13 +88,13 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
       {
         Sid = "NetworkPermission"
         Action = [
-          "ec2:CreateVpc", "ec2:CreateVpcEndpoint", "ec2:DeleteVpc", "ec2:DeleteVpcEndpoint", "ec2:DescribeVpc", "ec2:ModifyVpcAttribute", "ec2:AcceptVpcEndpointConnections",
-          "ec2:CreateNatGateway", "ec2:DeleteNatGateway", "ec2:DescribeNatGateway",
+          "ec2:CreateVpc", "ec2:CreateVpcEndpoint", "ec2:DeleteVpc", "ec2:DeleteVpcEndpoint", "ec2:DescribeVpcs", "ec2:ModifyVpcAttribute", "ec2:AcceptVpcEndpointConnections",
+          "ec2:CreateNatGateway", "ec2:DeleteNatGateway", "ec2:DescribeNatGateway", "ec2:CreateTags",
           "ec2:CreateSubnet", "ec2:DeleteSubnet", "ec2:DescribeSubnet",
           "ec2:DeleteInternetGateway", "ec2:CreateInternetGateway", "ec2:AttachInternetGateway", "ec2:DetachInternetGateway",
           "ec2:CreateRouteTable", "ec2:DescribeRouteTable", "ec2:AssociateRouteTable", "ec2:CreateRoute", "ec2:DeleteRoute",
           "ec2:DescribeSecurityGroup", "ec2:CreateSecurityGroup", "ec2:DeleteSecurityGroup", "ec2:AuthorizeSecurityGroupEgress", "ec2:AuthorizeSecurityGroupIngress",
-          "ec2:AllocateAddress", "ec2:ReleaseAddress",
+          "ec2:AllocateAddress", "ec2:ReleaseAddress", "ec2:DescribeAddresses",
         ]
         Effect   = "Allow"
         Resource = "*"
@@ -116,16 +116,18 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
         Sid = "FrontendPermission"
         Action = [
           "cloudfront:UpdateDistribution", "cloudfront:CreateDistribution", "cloudfront:CreateCachePolicy", "cloudfront:CreateOriginAccessControl",
+          "cloudfront:GetOriginAccessControl", "cloudfront:GetCachePolicy",
           "cloudfront:DeleteCachePolicy", "cloudfront:DeleteDistribution", "cloudfront:DeleteOriginAccessControl",
           "route53:ListHostedZones", "route53:ListResourceRecordSets",
-          "acm:DeleteCertificate", "acm:DescribeCertificate", "acm:ListCertificates", "acm:ImportCertificate",
+          "acm:DeleteCertificate", "acm:DescribeCertificate", "acm:ListCertificates", "acm:ImportCertificate", "acm:RequestCertificate",
         ]
         Effect   = "Allow"
         Resource = "*"
       },
       {
-        "Effect" : "Allow",
-        "Action" : [
+        Sid    = "HostedZonePermission"
+        Effect = "Allow"
+        Action = [
           "route53:GetHostedZone", "route53:ChangeResourceRecordSets", "route53:ListTagsForResource",
         ]
         "Resource" : "arn:aws:route53:::hostedzone/Z09707871Z9DLD9Y1T6O0"
@@ -151,10 +153,38 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
           "s3:DeleteBucketPolicy", "s3:GetEncryptionConfiguration", "s3:PutEncryptionConfiguration", "s3:GetBucketPublicAccessBlock", "s3:PutBucketPublicAccessBlock",
         ]
         Effect   = "Allow"
-        Resource = "arn:aws:s3:::frontend-bucket-version-9250/*"
+        Resource = "arn:aws:s3:::frontend-bucket-version-9250"
 
       },
+      {
+        Sid = "CreateSNStopic"
+        Action = [
+          "sns:CreateTopic", "sns:DeleteTopic", "sns:ListTopics", "sns:ConfirmSubscription", "sns:GetSubscriptionAttributes",
+        ]
+        Effect   = "Allow"
+        Resource = "*"
+      },
 
+      {
+        Sid = "FrontendObjects"
+
+        Action = [
+          "s3:GetObject",
+          "s3:PutObject",
+          "s3:DeleteObject",
+        ]
+
+        Effect   = "Allow"
+        Resource = "arn:aws:s3:::frontend-bucket-version-9250/*"
+      },
+      {
+        Sid = "LogsPermission"
+        Action = [
+          "cloudwatch:DescribeAlarms", "cloudwatch:GetDashboard", "cloudwatch:ListMetrics",
+        ]
+        Effect   = "Allow"
+        Resource = "*"
+      },
       {
         Sid      = "CreateBucketPolicy"
         Action   = ["s3:CreateBucket"]
@@ -183,7 +213,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
         Sid = "ManagedInstanceProfiles"
         Action = [
           "iam:DeleteInstanceProfile", "iam:CreateInstanceProfile", "iam:AddRoleToInstanceProfile",
-          "iam:GetInstanceProfile", "iam:RemoveRoleFromInstanceProfile",
+          "iam:GetInstanceProfile", "iam:RemoveRoleFromInstanceProfile", "iam:CreateRole",
         ]
         Effect   = "Allow"
         Resource = "*"
