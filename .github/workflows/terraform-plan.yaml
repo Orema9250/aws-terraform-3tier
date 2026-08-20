@@ -1,82 +1,104 @@
-name: 'Terraform'
+name: Terraform
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
     branches: ["main"]
+ 
 
 permissions:
   id-token: write
   contents: read
 
+env:
+  AWS_REGION: us-east-1
+  ECR_REPOSITORY: backend
+
 jobs:
   terraform:
-    name: 'Terraform'
+    name: Terraform
     runs-on: ubuntu-latest
 
     defaults:
       run:
         shell: bash
 
-    
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-   
 
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: "arn:aws:iam::556173312932:role/githubterraformrolec68d2e0fcf6ada69a6b12579b3"
-        aws-region: "us-east-1"
+      - name: Checkout
+        uses: actions/checkout@v4
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::556173312932:role/githubterraformrolec68d2e0fcf6ada69a6b12579b3
+          aws-region: ${{ env.AWS_REGION }}
 
-    - name: Verify AWS identity
-      run: aws sts get-caller-identity
+      - name: Verify AWS identity
+        run: aws sts get-caller-identity
 
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
-      with:
-        role-to-assume: "arn:aws:iam::556173312932:role/githubterraformrolec68d2e0fcf6ada69a6b12579b3"
-        aws-region: "us-east-1"
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
 
-    
-    
-    - name: Terraform Init
-      run: terraform init
+      - name: Terraform Init
+        run: terraform init
 
-    - name: Terraform Format
-      run: terraform fmt -check -recursive
-    
-    - name: Create Terraform variables
-      run: |
-        cat > terraform.tfvars <<EOF
-        region                  = "us-east-1"
-        enable_dns_hostnames    = true
-        map_public_ip_on_launch = true
-        availability_zone       = ["us-east-1a", "us-east-1b"]
-        cidr_block              = "10.0.0.0/16"
-        cidr_ipv4               = "0.0.0.0/0"
-        device_name             = "/dev/xvda"
-        image_id                = "ami-0b6d9d3d33ba97d99"
-        private_dns_enabled     = true
-        aws_account_id          = "556173312932"
-        storage_type            = "gp2"
-        engine_version          = "17"
-        db_name                 = "mydatabase"
-        domain_name             = "orema-devops.xyz"
-        bucket_name             = "frontend-bucket-version-9250"
-        api_domain_name         = "api.orema-devops.xyz"
-        ecr_image_tag            = "${{ github.sha }}"
-        EOF
-    
-    - name: Select Terraform workspace
-      run: |
+      - name: Terraform Format
+        run: terraform fmt -check -recursive
+
+      - name: Create Terraform variables
+        run: |
+          cat > terraform.tfvars <<EOF
+          region                  = "us-east-1"
+          enable_dns_hostnames    = true
+          map_public_ip_on_launch = true
+          availability_zone       = ["us-east-1a", "us-east-1b"]
+          cidr_block              = "10.0.0.0/16"
+          cidr_ipv4               = "0.0.0.0/0"
+          device_name             = "/dev/xvda"
+          image_id                = "ami-0b6d9d3d33ba97d99"
+          private_dns_enabled     = true
+          aws_account_id          = "556173312932"
+          storage_type            = "gp2"
+          engine_version          = "17"
+          db_name                 = "mydatabase"
+          domain_name             = "orema-devops.xyz"
+          bucket_name             = "frontend-bucket-version-9250"
+          api_domain_name         = "api.orema-devops.xyz"
+          ecr_image_tag           = "${{ github.sha }}"
+          EOF
+
+      - name: Select Terraform workspace
+        run: |
           terraform workspace select dev || terraform workspace new dev
-    
-    - name: Terraform Plan
-      run: terraform plan -input=false
 
-  
-   
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan -input=false
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and Push Docker Image
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./backend
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan -input=false
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false
