@@ -61,7 +61,7 @@ jobs:
         device_name             = "/dev/xvda"
         image_id                = "ami-0b6d9d3d33ba97d99"
         private_dns_enabled     = true
-        user_id                 = "556173312932"
+        aws_account_id          = "556173312932"
         storage_type            = "gp2"
         engine_version          = "17"
         db_name                 = "mydatabase"

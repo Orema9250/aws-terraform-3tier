@@ -261,7 +261,7 @@ data "aws_iam_policy_document" "sqs_queue_policy" {
       "SQS:SendMessage",
     ]
 
-    resources = ["arn:aws:sqs:${var.region}:${var.user_id}:user-updates-queue"]
+    resources = ["arn:aws:sqs:${var.region}:${var.aws_account_id}:user-updates-queue"]
 
     condition {
       test     = "ArnEquals"
