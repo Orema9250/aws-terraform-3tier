@@ -47,7 +47,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
         Effect = "Allow"
 
         Action = [
-          "ecr:GetAuthorizationToken" , "ecr:CreateRepository",  "ecr:DescribeRepositories",
+          "ecr:GetAuthorizationToken", "ecr:CreateRepository", "ecr:DescribeRepositories",
         ]
 
         Resource = "*"
@@ -116,18 +116,18 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
       {
         Sid = "FrontendPermission"
         Action = [
-          "cloudfront:UpdateDistribution", "cloudfront:CreateDistribution", "cloudfront:CreateCachePolicy", "cloudfront:CreateOriginAccessControl", 
+          "cloudfront:UpdateDistribution", "cloudfront:CreateDistribution", "cloudfront:CreateCachePolicy", "cloudfront:CreateOriginAccessControl",
           "cloudfront:GetOriginAccessControl", "cloudfront:GetCachePolicy",
           "cloudfront:DeleteCachePolicy", "cloudfront:DeleteDistribution", "cloudfront:DeleteOriginAccessControl",
           "route53:ListHostedZones", "route53:ListResourceRecordSets",
-          "acm:DeleteCertificate", "acm:DescribeCertificate", "acm:ListCertificates", "acm:ImportCertificate", "acm:RequestCertificate", 
+          "acm:DeleteCertificate", "acm:DescribeCertificate", "acm:ListCertificates", "acm:ImportCertificate", "acm:RequestCertificate",
           "acm:AddTagsToCertificate", "acm:AddTagsToCertificate",
         ]
         Effect   = "Allow"
         Resource = "*"
       },
       {
-        Sid = "HostedZonePermission"
+        Sid    = "HostedZonePermission"
         Effect = "Allow"
         Action = [
           "route53:GetHostedZone", "route53:ChangeResourceRecordSets", "route53:ListTagsForResource",
@@ -161,25 +161,25 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
       {
         Sid = "CreateSNStopic"
         Action = [
-         "sns:CreateTopic", "sns:DeleteTopic", "sns:ListTopics", "sns:ConfirmSubscription", "sns:GetSubscriptionAttributes", "SNS:SetTopicAttributes",
+          "sns:CreateTopic", "sns:DeleteTopic", "sns:ListTopics", "sns:ConfirmSubscription", "sns:GetSubscriptionAttributes", "SNS:SetTopicAttributes",
         ]
-        Effect = "Allow"
+        Effect   = "Allow"
         Resource = "*"
       },
-    
+
       {
         Sid = "FrontendObjects"
 
         Action = [
-        "s3:GetObject",
-        "s3:PutObject",
-        "s3:DeleteObject",
+          "s3:GetObject",
+          "s3:PutObject",
+          "s3:DeleteObject",
         ]
 
         Effect   = "Allow"
         Resource = "arn:aws:s3:::frontend-bucket-version-9250/*"
       },
-    
+
       {
         Sid      = "CreateBucketPolicy"
         Action   = ["s3:CreateBucket"]
