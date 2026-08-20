@@ -36,10 +36,10 @@ module "app" {
   user_id            = var.user_id
   db_secret_arn      = module.rds.db_secret_arn
   ecr_image          = module.ecr.ecr_image_url
-  public_subnet_ids = module.vpc.public_subnet_ids
-  api_cert_arn = module.frontend.certificate_arn
-  ecr_image_url = module.ecr.ecr_image_url
-  ecr_image_tag = var.ecr_image_tag
+  public_subnet_ids  = module.vpc.public_subnet_ids
+  api_cert_arn       = module.frontend.certificate_arn
+  ecr_image_url      = module.ecr.ecr_image_url
+  ecr_image_tag      = var.ecr_image_tag
 }
 
 module "rds" {
@@ -56,14 +56,14 @@ module "rds" {
 }
 
 module "frontend" {
-  source      = "./modules/frontend"
-  bucket_name = var.bucket_name
-  region      = var.region
-  aliases     = [var.domain_name]
-  domain_name = var.domain_name
+  source          = "./modules/frontend"
+  bucket_name     = var.bucket_name
+  region          = var.region
+  aliases         = [var.domain_name]
+  domain_name     = var.domain_name
   api_domain_name = var.api_domain_name
-  lb_dns_name = module.app.lb_dns_name
-  lb_zone_id = module.app.lb_zone_id
+  lb_dns_name     = module.app.lb_dns_name
+  lb_zone_id      = module.app.lb_zone_id
 }
 
 module "ecr" {
