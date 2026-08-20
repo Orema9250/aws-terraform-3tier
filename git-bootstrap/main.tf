@@ -117,18 +117,18 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
         Action = [
           "cloudfront:UpdateDistribution", "cloudfront:CreateDistribution", "cloudfront:CreateCachePolicy", "cloudfront:CreateOriginAccessControl",
           "cloudfront:DeleteCachePolicy", "cloudfront:DeleteDistribution", "cloudfront:DeleteOriginAccessControl",
-          "route53:ListHostedZones",  "route53:ListResourceRecordSets",
+          "route53:ListHostedZones", "route53:ListResourceRecordSets",
           "acm:DeleteCertificate", "acm:DescribeCertificate", "acm:ListCertificates", "acm:ImportCertificate",
         ]
         Effect   = "Allow"
         Resource = "*"
       },
       {
-        "Effect": "Allow",
-        "Action": [
-        "route53:GetHostedZone" , "route53:ChangeResourceRecordSets",
-      ]
-        "Resource": "arn:aws:route53:::hostedzone/Z09707871Z9DLD9Y1T6O0"
+        "Effect" : "Allow",
+        "Action" : [
+          "route53:GetHostedZone", "route53:ChangeResourceRecordSets",
+        ]
+        "Resource" : "arn:aws:route53:::hostedzone/Z09707871Z9DLD9Y1T6O0"
       },
       {
         Sid = "DatabasePermission"
