@@ -47,7 +47,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
         Effect = "Allow"
 
         Action = [
-          "ecr:GetAuthorizationToken", "ecr:CreateRepository",
+          "ecr:GetAuthorizationToken" , "ecr:CreateRepository",  "ecr:DescribeRepositories",
         ]
 
         Resource = "*"
@@ -88,13 +88,14 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
       {
         Sid = "NetworkPermission"
         Action = [
-          "ec2:CreateVpc", "ec2:CreateVpcEndpoint", "ec2:DeleteVpc", "ec2:DeleteVpcEndpoint", "ec2:DescribeVpcs", "ec2:ModifyVpcAttribute", "ec2:AcceptVpcEndpointConnections",
+          "ec2:CreateVpc", "ec2:CreateVpcEndpoint", "ec2:DeleteVpc", "ec2:DeleteVpcEndpoint", "ec2:DescribeVpcs", "ec2:ModifyVpcAttribute",
+          "ec2:AcceptVpcEndpointConnections", "ec2:DescribeVpcAttribute",
           "ec2:CreateNatGateway", "ec2:DeleteNatGateway", "ec2:DescribeNatGateway", "ec2:CreateTags",
           "ec2:CreateSubnet", "ec2:DeleteSubnet", "ec2:DescribeSubnet",
           "ec2:DeleteInternetGateway", "ec2:CreateInternetGateway", "ec2:AttachInternetGateway", "ec2:DetachInternetGateway",
           "ec2:CreateRouteTable", "ec2:DescribeRouteTable", "ec2:AssociateRouteTable", "ec2:CreateRoute", "ec2:DeleteRoute",
           "ec2:DescribeSecurityGroup", "ec2:CreateSecurityGroup", "ec2:DeleteSecurityGroup", "ec2:AuthorizeSecurityGroupEgress", "ec2:AuthorizeSecurityGroupIngress",
-          "ec2:AllocateAddress", "ec2:ReleaseAddress", "ec2:DescribeAddresses",
+          "ec2:AllocateAddress", "ec2:ReleaseAddress", "ec2:DescribeAddresses", "ec2:DescribeAddressesAttribute",
         ]
         Effect   = "Allow"
         Resource = "*"
@@ -115,17 +116,18 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
       {
         Sid = "FrontendPermission"
         Action = [
-          "cloudfront:UpdateDistribution", "cloudfront:CreateDistribution", "cloudfront:CreateCachePolicy", "cloudfront:CreateOriginAccessControl",
+          "cloudfront:UpdateDistribution", "cloudfront:CreateDistribution", "cloudfront:CreateCachePolicy", "cloudfront:CreateOriginAccessControl", 
           "cloudfront:GetOriginAccessControl", "cloudfront:GetCachePolicy",
           "cloudfront:DeleteCachePolicy", "cloudfront:DeleteDistribution", "cloudfront:DeleteOriginAccessControl",
           "route53:ListHostedZones", "route53:ListResourceRecordSets",
-          "acm:DeleteCertificate", "acm:DescribeCertificate", "acm:ListCertificates", "acm:ImportCertificate", "acm:RequestCertificate",
+          "acm:DeleteCertificate", "acm:DescribeCertificate", "acm:ListCertificates", "acm:ImportCertificate", "acm:RequestCertificate", 
+          "acm:AddTagsToCertificate", "acm:AddTagsToCertificate",
         ]
         Effect   = "Allow"
         Resource = "*"
       },
       {
-        Sid    = "HostedZonePermission"
+        Sid = "HostedZonePermission"
         Effect = "Allow"
         Action = [
           "route53:GetHostedZone", "route53:ChangeResourceRecordSets", "route53:ListTagsForResource",
@@ -159,32 +161,25 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
       {
         Sid = "CreateSNStopic"
         Action = [
-          "sns:CreateTopic", "sns:DeleteTopic", "sns:ListTopics", "sns:ConfirmSubscription", "sns:GetSubscriptionAttributes",
+         "sns:CreateTopic", "sns:DeleteTopic", "sns:ListTopics", "sns:ConfirmSubscription", "sns:GetSubscriptionAttributes", "SNS:SetTopicAttributes",
         ]
-        Effect   = "Allow"
+        Effect = "Allow"
         Resource = "*"
       },
-
+    
       {
         Sid = "FrontendObjects"
 
         Action = [
-          "s3:GetObject",
-          "s3:PutObject",
-          "s3:DeleteObject",
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:DeleteObject",
         ]
 
         Effect   = "Allow"
         Resource = "arn:aws:s3:::frontend-bucket-version-9250/*"
       },
-      {
-        Sid = "LogsPermission"
-        Action = [
-          "cloudwatch:DescribeAlarms", "cloudwatch:GetDashboard", "cloudwatch:ListMetrics",
-        ]
-        Effect   = "Allow"
-        Resource = "*"
-      },
+    
       {
         Sid      = "CreateBucketPolicy"
         Action   = ["s3:CreateBucket"]
@@ -213,7 +208,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
         Sid = "ManagedInstanceProfiles"
         Action = [
           "iam:DeleteInstanceProfile", "iam:CreateInstanceProfile", "iam:AddRoleToInstanceProfile",
-          "iam:GetInstanceProfile", "iam:RemoveRoleFromInstanceProfile", "iam:CreateRole",
+          "iam:GetInstanceProfile", "iam:RemoveRoleFromInstanceProfile", "iam:CreateRole", "iam:GetRole",
         ]
         Effect   = "Allow"
         Resource = "*"
