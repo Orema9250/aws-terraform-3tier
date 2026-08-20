@@ -61,8 +61,8 @@ variable "private_dns_enabled" {
   description = "Enable DNS for vpc endpoints"
   type        = bool
 }
-variable "user_id" {
-  description = "user account id"
+variable "aws_account_id" {
+  description = "aws account id"
   type        = string
 }
 variable "allocated_storage" {

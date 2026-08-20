@@ -33,7 +33,7 @@ module "app" {
   device_name        = var.device_name
   instance_type      = var.instance_type
   image_id           = var.image_id
-  user_id            = var.user_id
+  user_id            = var.aws_account_id
   db_secret_arn      = module.rds.db_secret_arn
   ecr_image          = module.ecr.ecr_image_url
   public_subnet_ids  = module.vpc.public_subnet_ids
