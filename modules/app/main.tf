@@ -246,7 +246,7 @@ resource "aws_sns_topic_subscription" "user_updates_sqs_target" {
 }
 
 data "aws_iam_policy_document" "sqs_queue_policy" {
-  policy_id = "arn:aws:sqs:${var.region}:${var.user_id}:user_updates_queue/SQSDefaultPolicy"
+  policy_id = "arn:aws:sqs:${var.region}:${var.aws_account_id}:user_updates_queue/SQSDefaultPolicy"
 
   statement {
     sid    = "user_updates_sqs_target"

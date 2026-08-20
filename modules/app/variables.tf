@@ -48,8 +48,8 @@ variable "private_subnet_ids" {
 }
 
 
-variable "user_id" {
-  description = "user account id"
+variable "aws_account_id" {
+  description = "aws account id"
   type        = string
 }
 
