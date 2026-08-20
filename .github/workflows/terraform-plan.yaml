@@ -70,7 +70,11 @@ jobs:
         api_domain_name         = "api.orema-devops.xyz"
         ecr_image_tag            = "${{ github.sha }}"
         EOF
-
+    
+    - name: Select Terraform workspace
+      run: |
+          terraform workspace select dev || terraform workspace new dev
+    
     - name: Terraform Plan
       run: terraform plan -input=false
 
