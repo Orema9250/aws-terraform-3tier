@@ -82,7 +82,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
           "s3:GetObject", "s3:PutObject", "s3:DeleteObject"
         ]
         Effect   = "Allow"
-        Resource = "arn:aws:s3:::my-terraform-state1234-bucket/orema/terraform.tfstate"
+        Resource = "arn:aws:s3:::my-terraform-state1234-bucket/*"
       },
 
       {
