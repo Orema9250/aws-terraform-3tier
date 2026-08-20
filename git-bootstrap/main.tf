@@ -126,7 +126,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
       {
         "Effect" : "Allow",
         "Action" : [
-          "route53:GetHostedZone", "route53:ChangeResourceRecordSets",
+          "route53:GetHostedZone", "route53:ChangeResourceRecordSets", "route53:ListTagsForResource",
         ]
         "Resource" : "arn:aws:route53:::hostedzone/Z09707871Z9DLD9Y1T6O0"
       },
