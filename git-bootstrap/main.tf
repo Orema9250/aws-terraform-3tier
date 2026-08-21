@@ -85,6 +85,22 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
         Effect   = "Allow"
         Resource = "arn:aws:s3:::my-terraform-state1234-bucket/*"
       },
+      {
+        Sid    = "CloudWatchAlarmManagement"
+        Effect = "Allow"
+
+        Action = [
+          "cloudwatch:PutMetricAlarm",
+          "cloudwatch:DeleteAlarms",
+          "cloudwatch:DescribeAlarms",
+          "cloudwatch:GetMetricStatistics",
+          "cloudwatch:ListMetrics",
+          "cloudwatch:TagResource",
+          "cloudwatch:UntagResource"
+        ]
+
+        Resource = "*"
+      },
 
       {
         Sid = "NetworkPermission"
