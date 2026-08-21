@@ -48,6 +48,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
 
         Action = [
           "ecr:GetAuthorizationToken", "ecr:CreateRepository", "ecr:DescribeRepositories", "ecr:ListTagsForResource",
+          "ecr:DeleteRepository", "ecr:TagResource", "ecr:UntagResource",
         ]
 
         Resource = "*"
@@ -89,12 +90,12 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
         Sid = "NetworkPermission"
         Action = [
           "ec2:CreateVpc", "ec2:CreateVpcEndpoint", "ec2:DeleteVpc", "ec2:DeleteVpcEndpoint", "ec2:DescribeVpcs", "ec2:ModifyVpcAttribute",
-          "ec2:AcceptVpcEndpointConnections", "ec2:DescribeVpcAttribute",
+          "ec2:AcceptVpcEndpointConnections", "ec2:DescribeVpcEndpoints", "ec2:DescribeVpcAttribute", "ec2:ModifyVpcEndpoint",
           "ec2:CreateNatGateway", "ec2:DeleteNatGateway", "ec2:DescribeNatGateway", "ec2:CreateTags",
-          "ec2:CreateSubnet", "ec2:DeleteSubnet", "ec2:DescribeSubnet",
+          "ec2:CreateSubnet", "ec2:DeleteSubnet", "ec2:DescribeSubnets",
           "ec2:DeleteInternetGateway", "ec2:CreateInternetGateway", "ec2:AttachInternetGateway", "ec2:DetachInternetGateway",
-          "ec2:CreateRouteTable", "ec2:DescribeRouteTable", "ec2:AssociateRouteTable", "ec2:CreateRoute", "ec2:DeleteRoute",
-          "ec2:DescribeSecurityGroup", "ec2:CreateSecurityGroup", "ec2:DeleteSecurityGroup", "ec2:AuthorizeSecurityGroupEgress", "ec2:AuthorizeSecurityGroupIngress",
+          "ec2:CreateRouteTable", "ec2:DescribeRouteTables", "ec2:AssociateRouteTable", "ec2:CreateRoute", "ec2:DeleteRoute",
+          "ec2:DescribeSecurityGroups", "ec2:CreateSecurityGroup", "ec2:DeleteSecurityGroup", "ec2:AuthorizeSecurityGroupEgress", "ec2:AuthorizeSecurityGroupIngress",
           "ec2:AllocateAddress", "ec2:ReleaseAddress", "ec2:DescribeAddresses", "ec2:DescribeAddressesAttribute",
         ]
         Effect   = "Allow"
@@ -107,6 +108,9 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
           "autoscaling:CreateAutoScalingGroup", "autoscaling:DeleteAutoScalingGroup", "autoscaling:DescribeAutoScalingGroups", "autoscaling:UpdateAutoScalingGroup", "ec2:DescribeInstances", "ec2:RunInstances", "ec2:TerminateInstances", "ec2:RebootInstances",
           "elasticloadbalancing:CreateListener", "elasticloadbalancing:CreateLoadBalancer", "elasticloadbalancing:CreateTargetGroup", "elasticloadbalancing:DeleteListener",
           "elasticloadbalancing:DeleteLoadBalancer", "elasticloadbalancing:DeleteTargetGroup", "elasticloadbalancing:DescribeTargetGroups", "elasticloadbalancing:DescribeTargetHealth",
+          "elasticloadbalancing:ModifyTargetGroup",
+          "elasticloadbalancing:ModifyTargetGroupAttributes", "elasticloadbalancing:DescribeLoadBalancers", "elasticloadbalancing:DescribeListeners", "elasticloadbalancing:ModifyListener",
+          "elasticloadbalancing:DeleteListener", "elasticloadbalancing:RegisterTargets", "elasticloadbalancing:DeregisterTargets",
           "ec2:RunInstances", "ec2:TerminateInstances", "ec2:DescribeInstances",
 
         ]
@@ -121,7 +125,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
           "cloudfront:DeleteCachePolicy", "cloudfront:DeleteDistribution", "cloudfront:DeleteOriginAccessControl",
           "route53:ListHostedZones", "route53:ListResourceRecordSets",
           "acm:DeleteCertificate", "acm:DescribeCertificate", "acm:ListCertificates", "acm:ImportCertificate", "acm:RequestCertificate",
-          "acm:AddTagsToCertificate", "acm:AddTagsToCertificate",
+          "acm:ListTagsForCertificate", "acm:AddTagsToCertificate", "acm:RemoveTagsFromCertificate",
         ]
         Effect   = "Allow"
         Resource = "*"
@@ -149,14 +153,54 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
         Resource = "*"
       },
       {
-        Sid = "ManagedBucketPolicies"
-        Action = [
-          "s3:DeleteBucket", "s3:GetBucketLocation", "s3:GetBucketVersioning", "s3:PutBucketVersioning", "s3:GetBucketPolicy", "s3:PutBucketPolicy",
-          "s3:DeleteBucketPolicy", "s3:GetEncryptionConfiguration", "s3:PutEncryptionConfiguration", "s3:GetBucketPublicAccessBlock", "s3:PutBucketPublicAccessBlock",
-        ]
-        Effect   = "Allow"
-        Resource = "arn:aws:s3:::frontend-bucket-version-9250"
+        Sid    = "FrontendBucketManagement"
+        Effect = "Allow"
 
+        Action = [
+          "s3:CreateBucket",
+          "s3:DeleteBucket",
+          "s3:ListBucket",
+
+          "s3:GetBucketLocation",
+          "s3:GetBucketVersioning",
+          "s3:PutBucketVersioning",
+
+          "s3:GetBucketPolicy",
+          "s3:PutBucketPolicy",
+          "s3:DeleteBucketPolicy",
+
+          "s3:GetBucketAcl",
+          "s3:PutBucketAcl",
+
+          "s3:GetBucketPublicAccessBlock",
+          "s3:PutBucketPublicAccessBlock",
+
+          "s3:GetEncryptionConfiguration",
+          "s3:PutEncryptionConfiguration",
+
+          "s3:GetBucketTagging",
+          "s3:PutBucketTagging",
+          "s3:DeleteBucketTagging"
+        ]
+
+        Resource = "arn:aws:s3:::frontend-bucket-version-9250"
+      },
+      {
+        Sid    = "SQSManagement"
+        Effect = "Allow"
+
+        Action = [
+          "sqs:CreateQueue",
+          "sqs:DeleteQueue",
+          "sqs:GetQueueAttributes",
+          "sqs:SetQueueAttributes",
+          "sqs:GetQueueUrl",
+          "sqs:ListQueueTags",
+          "sqs:TagQueue",
+          "sqs:UntagQueue"
+        ]
+
+        Resource = "arn:aws:sqs:us-east-1:556173312932:user-updates-queue"
       },
       {
         Sid = "CreateSNStopic"
