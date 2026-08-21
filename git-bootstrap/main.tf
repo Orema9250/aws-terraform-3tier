@@ -181,6 +181,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
 
           "s3:GetBucketCORS",
           "s3:GetBucketWebsite",
+          "s3:GetAccelerateConfiguration",
 
           "s3:GetBucketTagging",
           "s3:PutBucketTagging",
