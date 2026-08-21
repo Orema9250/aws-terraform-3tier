@@ -162,7 +162,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
         Sid = "CreateSNStopic"
         Action = [
           "sns:CreateTopic", "sns:DeleteTopic", "sns:ListTopics", "sns:ConfirmSubscription",
-          "sns:GetSubscriptionAttributes", "SNS:SetTopicAttributes", "SNS:GetTopicAttribute",
+          "sns:GetSubscriptionAttributes", "SNS:SetTopicAttributes", "SNS:GetTopicAttributes", 
         ]
         Effect   = "Allow"
         Resource = "*"
@@ -209,7 +209,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
         Sid = "ManagedInstanceProfiles"
         Action = [
           "iam:DeleteInstanceProfile", "iam:CreateInstanceProfile", "iam:AddRoleToInstanceProfile",
-          "iam:GetInstanceProfile", "iam:RemoveRoleFromInstanceProfile", "iam:CreateRole", "iam:GetRole", "iam:ListRolePolicies",
+          "iam:GetInstanceProfile", "iam:RemoveRoleFromInstanceProfile", "iam:CreateRole", "iam:GetRole", "iam:ListRolePolicies", "iam:ListAttachedRolePolicies",
         ]
         Effect   = "Allow"
         Resource = "*"
