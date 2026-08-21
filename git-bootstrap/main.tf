@@ -162,7 +162,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
         Sid = "CreateSNStopic"
         Action = [
           "sns:CreateTopic", "sns:DeleteTopic", "sns:ListTopics", "sns:ConfirmSubscription",
-          "sns:GetSubscriptionAttributes", "SNS:SetTopicAttributes", "SNS:GetTopicAttributes",
+          "sns:GetSubscriptionAttributes", "sns:SetTopicAttributes", "sns:GetTopicAttributes", "sns:ListTagsForResource",
         ]
         Effect   = "Allow"
         Resource = "*"
