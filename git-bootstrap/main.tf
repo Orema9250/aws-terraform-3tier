@@ -112,7 +112,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
           "elasticloadbalancing:ModifyTargetGroupAttributes", "elasticloadbalancing:DescribeLoadBalancers", "elasticloadbalancing:DescribeListeners", "elasticloadbalancing:ModifyListener",
           "elasticloadbalancing:DeleteListener", "elasticloadbalancing:RegisterTargets", "elasticloadbalancing:DeregisterTargets", "elasticloadbalancing:DescribeTargetGroupAttributes",
           "ec2:RunInstances", "ec2:TerminateInstances", "ec2:DescribeInstances",
-          "ec2:DescribeInternetGateways", "ec2:DescribePrefixList",
+          "ec2:DescribeInternetGateways", "ec2:DescribePrefixLists",
         ]
         Effect   = "Allow"
         Resource = "*"
@@ -175,10 +175,12 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
           "s3:GetBucketPublicAccessBlock",
           "s3:PutBucketPublicAccessBlock",
 
+
           "s3:GetEncryptionConfiguration",
           "s3:PutEncryptionConfiguration",
 
           "s3:GetBucketCORS",
+          "s3:GetBucketWebsite",
 
           "s3:GetBucketTagging",
           "s3:PutBucketTagging",
