@@ -185,7 +185,9 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
 
           "s3:GetBucketTagging",
           "s3:PutBucketTagging",
-          "s3:DeleteBucketTagging"
+          "s3:DeleteBucketTagging",
+
+          "s3:GetBucketRequestPayment",
         ]
 
         Resource = "arn:aws:s3:::frontend-bucket-version-9250"
