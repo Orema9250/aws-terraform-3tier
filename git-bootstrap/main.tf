@@ -47,7 +47,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
         Effect = "Allow"
 
         Action = [
-          "ecr:GetAuthorizationToken", "ecr:CreateRepository", "ecr:DescribeRepositories",
+          "ecr:GetAuthorizationToken", "ecr:CreateRepository", "ecr:DescribeRepositories", "ecr:ListTagsForResource",
         ]
 
         Resource = "*"
@@ -161,7 +161,8 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
       {
         Sid = "CreateSNStopic"
         Action = [
-          "sns:CreateTopic", "sns:DeleteTopic", "sns:ListTopics", "sns:ConfirmSubscription", "sns:GetSubscriptionAttributes", "SNS:SetTopicAttributes",
+          "sns:CreateTopic", "sns:DeleteTopic", "sns:ListTopics", "sns:ConfirmSubscription", 
+          "sns:GetSubscriptionAttributes", "SNS:SetTopicAttributes", "SNS:GetTopicAttribute",
         ]
         Effect   = "Allow"
         Resource = "*"
@@ -208,7 +209,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
         Sid = "ManagedInstanceProfiles"
         Action = [
           "iam:DeleteInstanceProfile", "iam:CreateInstanceProfile", "iam:AddRoleToInstanceProfile",
-          "iam:GetInstanceProfile", "iam:RemoveRoleFromInstanceProfile", "iam:CreateRole", "iam:GetRole",
+          "iam:GetInstanceProfile", "iam:RemoveRoleFromInstanceProfile", "iam:CreateRole", "iam:GetRole", "iam:ListRolePolicies",
         ]
         Effect   = "Allow"
         Resource = "*"
