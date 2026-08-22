@@ -120,14 +120,14 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
       {
         Sid = "ComputePermission"
         Action = [
-          "ec2:CreateLaunchTemplate", "ec2:DeleteLaunchTemplate",
+          "ec2:CreateLaunchTemplate", "ec2:DeleteLaunchTemplate", "ec2:DescribeLaunchTemplates",
           "autoscaling:CreateAutoScalingGroup", "autoscaling:DeleteAutoScalingGroup", "autoscaling:DescribeAutoScalingGroups", "autoscaling:UpdateAutoScalingGroup", "ec2:DescribeInstances", "ec2:RunInstances", "ec2:TerminateInstances", "ec2:RebootInstances",
           "elasticloadbalancing:CreateListener", "elasticloadbalancing:CreateLoadBalancer", "elasticloadbalancing:CreateTargetGroup", "elasticloadbalancing:DeleteListener",
           "elasticloadbalancing:DeleteLoadBalancer", "elasticloadbalancing:DeleteTargetGroup", "elasticloadbalancing:DescribeTargetGroups", "elasticloadbalancing:DescribeTargetHealth",
           "elasticloadbalancing:ModifyTargetGroup", "elasticloadbalancing:DescribeTags",
           "elasticloadbalancing:ModifyTargetGroupAttributes", "elasticloadbalancing:DescribeLoadBalancers", "elasticloadbalancing:DescribeListeners", "elasticloadbalancing:ModifyListener",
           "elasticloadbalancing:DeleteListener", "elasticloadbalancing:RegisterTargets", "elasticloadbalancing:DeregisterTargets", "elasticloadbalancing:DescribeTargetGroupAttributes",
-          "elasticloadbalancing:ModifyLoadBalancerAttributes",
+          "elasticloadbalancing:ModifyLoadBalancerAttributes", "elasticloadbalancing:DescribeLoadBalancerAttributes",
           "ec2:RunInstances", "ec2:TerminateInstances", "ec2:DescribeInstances",
           "ec2:DescribeInternetGateways", "ec2:DescribePrefixLists", "ec2:RevokeSecurityGroupEgress",
           "ec2:DescribeNetworkInterfaces",
@@ -140,7 +140,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
         Action = [
           "cloudfront:UpdateDistribution", "cloudfront:CreateDistribution", "cloudfront:CreateCachePolicy", "cloudfront:CreateOriginAccessControl",
           "cloudfront:GetOriginAccessControl", "cloudfront:GetCachePolicy", "cloudfront:TagResource", "cloudfront:GetDistribution",
-          "cloudfront:DeleteCachePolicy", "cloudfront:DeleteDistribution", "cloudfront:DeleteOriginAccessControl",
+          "cloudfront:DeleteCachePolicy", "cloudfront:DeleteDistribution", "cloudfront:DeleteOriginAccessControl", "cloudfront:ListTagsForResource",
           "route53:ListHostedZones", "route53:ListResourceRecordSets", "route53:GetChange",
           "acm:DeleteCertificate", "acm:DescribeCertificate", "acm:ListCertificates", "acm:ImportCertificate", "acm:RequestCertificate",
           "acm:ListTagsForCertificate", "acm:AddTagsToCertificate", "acm:RemoveTagsFromCertificate",
@@ -315,7 +315,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
         Action = [
           "iam:DeleteInstanceProfile", "iam:CreateInstanceProfile", "iam:AddRoleToInstanceProfile", "iam:AttachRolePolicy", "iam:PutRolePolicy",
           "iam:GetInstanceProfile", "iam:RemoveRoleFromInstanceProfile", "iam:CreateRole", "iam:GetRole", "iam:ListRolePolicies", "iam:ListAttachedRolePolicies",
-          "iam:GetRolePolicy", "iam:DetachRolePolicy", "iam:DeleteRolePolicy"
+          "iam:GetRolePolicy", "iam:DetachRolePolicy", "iam:DeleteRolePolicy", "iam:CreatePolicy",
         ]
         Effect   = "Allow"
         Resource = "*"
