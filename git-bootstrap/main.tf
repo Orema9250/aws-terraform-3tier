@@ -121,7 +121,9 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
         Sid = "ComputePermission"
         Action = [
           "ec2:CreateLaunchTemplate", "ec2:DeleteLaunchTemplate", "ec2:DescribeLaunchTemplates", "ec2:DescribeLaunchTemplateVersions",
-          "autoscaling:CreateAutoScalingGroup", "autoscaling:DeleteAutoScalingGroup", "autoscaling:DescribeAutoScalingGroups", "autoscaling:UpdateAutoScalingGroup", "ec2:DescribeInstances", "ec2:RunInstances", "ec2:TerminateInstances", "ec2:RebootInstances",
+          "autoscaling:CreateAutoScalingGroup", "autoscaling:DeleteAutoScalingGroup", "autoscaling:DescribeAutoScalingGroups", "autoscaling:UpdateAutoScalingGroup",
+          "autoscaling:DescribeScalingActivities",
+          "ec2:DescribeInstances", "ec2:RunInstances", "ec2:TerminateInstances", "ec2:RebootInstances",
           "elasticloadbalancing:CreateListener", "elasticloadbalancing:CreateLoadBalancer", "elasticloadbalancing:CreateTargetGroup", "elasticloadbalancing:DeleteListener",
           "elasticloadbalancing:DeleteLoadBalancer", "elasticloadbalancing:DeleteTargetGroup", "elasticloadbalancing:DescribeTargetGroups", "elasticloadbalancing:DescribeTargetHealth",
           "elasticloadbalancing:ModifyTargetGroup", "elasticloadbalancing:DescribeTags",
@@ -316,6 +318,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
           "iam:DeleteInstanceProfile", "iam:CreateInstanceProfile", "iam:AddRoleToInstanceProfile", "iam:AttachRolePolicy", "iam:PutRolePolicy",
           "iam:GetInstanceProfile", "iam:RemoveRoleFromInstanceProfile", "iam:CreateRole", "iam:GetRole", "iam:ListRolePolicies", "iam:ListAttachedRolePolicies",
           "iam:GetRolePolicy", "iam:DetachRolePolicy", "iam:DeleteRolePolicy", "iam:CreatePolicy", "iam:GetPolicy", "iam:GetPolicyVersion", "iam:ListPolicyVersions",
+          "iam:DeletePolicy",
         ]
         Effect   = "Allow"
         Resource = "*"
