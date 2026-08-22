@@ -152,7 +152,7 @@ resource "aws_iam_role_policy_attachment" "test_attach_secret" {
   policy_arn = aws_iam_policy.secrets_manager.arn
 }
 resource "aws_launch_template" "app_launch_template" {
-  name = "app_launch-template"
+  name = "app-launch-template"
 
   block_device_mappings {
     device_name = var.device_name

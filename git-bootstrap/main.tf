@@ -127,7 +127,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
           "elasticloadbalancing:ModifyTargetGroup", "elasticloadbalancing:DescribeTags",
           "elasticloadbalancing:ModifyTargetGroupAttributes", "elasticloadbalancing:DescribeLoadBalancers", "elasticloadbalancing:DescribeListeners", "elasticloadbalancing:ModifyListener",
           "elasticloadbalancing:DeleteListener", "elasticloadbalancing:RegisterTargets", "elasticloadbalancing:DeregisterTargets", "elasticloadbalancing:DescribeTargetGroupAttributes",
-          "elasticloadbalancing:ModifyLoadBalancerAttributes", "elasticloadbalancing:DescribeLoadBalancerAttributes",
+          "elasticloadbalancing:ModifyLoadBalancerAttributes", "elasticloadbalancing:DescribeLoadBalancerAttributes", "elasticloadbalancing:DescribeListenerAttributes",
           "ec2:RunInstances", "ec2:TerminateInstances", "ec2:DescribeInstances",
           "ec2:DescribeInternetGateways", "ec2:DescribePrefixLists", "ec2:RevokeSecurityGroupEgress",
           "ec2:DescribeNetworkInterfaces",
@@ -315,7 +315,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
         Action = [
           "iam:DeleteInstanceProfile", "iam:CreateInstanceProfile", "iam:AddRoleToInstanceProfile", "iam:AttachRolePolicy", "iam:PutRolePolicy",
           "iam:GetInstanceProfile", "iam:RemoveRoleFromInstanceProfile", "iam:CreateRole", "iam:GetRole", "iam:ListRolePolicies", "iam:ListAttachedRolePolicies",
-          "iam:GetRolePolicy", "iam:DetachRolePolicy", "iam:DeleteRolePolicy", "iam:CreatePolicy",
+          "iam:GetRolePolicy", "iam:DetachRolePolicy", "iam:DeleteRolePolicy", "iam:CreatePolicy", "iam:GetPolicy",
         ]
         Effect   = "Allow"
         Resource = "*"
