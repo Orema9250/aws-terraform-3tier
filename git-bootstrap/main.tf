@@ -315,7 +315,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
         Action = [
           "iam:DeleteInstanceProfile", "iam:CreateInstanceProfile", "iam:AddRoleToInstanceProfile", "iam:AttachRolePolicy", "iam:PutRolePolicy",
           "iam:GetInstanceProfile", "iam:RemoveRoleFromInstanceProfile", "iam:CreateRole", "iam:GetRole", "iam:ListRolePolicies", "iam:ListAttachedRolePolicies",
-          "iam:GetRolePolicy", "iam:DetachRolePolicy", "iam:DeleteRolePolicy", "iam:CreatePolicy", "iam:GetPolicy",
+          "iam:GetRolePolicy", "iam:DetachRolePolicy", "iam:DeleteRolePolicy", "iam:CreatePolicy", "iam:GetPolicy", "iam:GetPolicyVersion",
         ]
         Effect   = "Allow"
         Resource = "*"
