@@ -158,7 +158,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
       {
         Sid = "DatabasePermission"
         Action = [
-          "rds:CreateDBInstance", "rds:DeleteDBInstance", "rds:DescribeDBInstances", "rds:AddTagsToResource",
+          "rds:CreateDBInstance", "rds:DeleteDBInstance", "rds:DescribeDBInstances", "rds:AddTagsToResource", "rds:ListTagsForResource",
         ]
         Effect   = "Allow"
         Resource = "*"
