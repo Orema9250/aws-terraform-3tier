@@ -207,6 +207,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
           "s3:GetBucketLogging",
           "s3:GetLifecycleConfiguration",
           "s3:GetReplicationConfiguration",
+          "s3:GetBucketObjectLockConfiguration",
         ]
 
         Resource = "arn:aws:s3:::frontend-bucket-version-9250"
@@ -245,7 +246,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
           "s3:GetObject",
           "s3:PutObject",
           "s3:DeleteObject",
-          "s3:GetBucketObjectLockConfiguration",
+
         ]
 
         Effect   = "Allow"
