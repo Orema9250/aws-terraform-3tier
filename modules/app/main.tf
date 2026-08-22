@@ -119,7 +119,7 @@ data "aws_iam_policy_document" "app_role" {
 }
 
 resource "aws_iam_role" "instance_role" {
-  name               = "iam-instance_role"
+  name               = "iam-instance-role"
   path               = "/"
   assume_role_policy = data.aws_iam_policy_document.app_role.json
 }

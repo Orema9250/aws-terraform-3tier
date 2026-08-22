@@ -129,6 +129,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
           "elasticloadbalancing:DeleteListener", "elasticloadbalancing:RegisterTargets", "elasticloadbalancing:DeregisterTargets", "elasticloadbalancing:DescribeTargetGroupAttributes",
           "ec2:RunInstances", "ec2:TerminateInstances", "ec2:DescribeInstances",
           "ec2:DescribeInternetGateways", "ec2:DescribePrefixLists", "ec2:RevokeSecurityGroupEgress",
+          "ec2:DescribeNetworkInterfaces",
         ]
         Effect   = "Allow"
         Resource = "*"
@@ -137,7 +138,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
         Sid = "FrontendPermission"
         Action = [
           "cloudfront:UpdateDistribution", "cloudfront:CreateDistribution", "cloudfront:CreateCachePolicy", "cloudfront:CreateOriginAccessControl",
-          "cloudfront:GetOriginAccessControl", "cloudfront:GetCachePolicy",
+          "cloudfront:GetOriginAccessControl", "cloudfront:GetCachePolicy", "cloudfront:TagResource",
           "cloudfront:DeleteCachePolicy", "cloudfront:DeleteDistribution", "cloudfront:DeleteOriginAccessControl",
           "route53:ListHostedZones", "route53:ListResourceRecordSets", "route53:GetChange",
           "acm:DeleteCertificate", "acm:DescribeCertificate", "acm:ListCertificates", "acm:ImportCertificate", "acm:RequestCertificate",
@@ -164,7 +165,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
       },
       {
         Sid      = "SubnetGroupPermission"
-        Action   = ["rds:CreateDBSubnetGroup", "rds:DeleteDBSubnetGroup", ]
+        Action   = ["rds:CreateDBSubnetGroup", "rds:DeleteDBSubnetGroup", "rds:DescribeDBSubnetGroups", ]
         Effect   = "Allow"
         Resource = "*"
       },
@@ -208,6 +209,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
           "s3:GetLifecycleConfiguration",
           "s3:GetReplicationConfiguration",
           "s3:GetBucketObjectLockConfiguration",
+          "s3:PutBucketOwnershipControls",
         ]
 
         Resource = "arn:aws:s3:::frontend-bucket-version-9250"
@@ -232,7 +234,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
       {
         Sid = "CreateSNStopic"
         Action = [
-          "sns:CreateTopic", "sns:DeleteTopic", "sns:ListTopics", "sns:ConfirmSubscription",
+          "sns:CreateTopic", "sns:DeleteTopic", "sns:ListTopics", "sns:ConfirmSubscription", "sns:Subscribe",
           "sns:GetSubscriptionAttributes", "sns:SetTopicAttributes", "sns:GetTopicAttributes", "sns:ListTagsForResource",
         ]
         Effect   = "Allow"
@@ -282,6 +284,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
         Action = [
           "iam:DeleteInstanceProfile", "iam:CreateInstanceProfile", "iam:AddRoleToInstanceProfile", "iam:AttachRolePolicy", "iam:PutRolePolicy",
           "iam:GetInstanceProfile", "iam:RemoveRoleFromInstanceProfile", "iam:CreateRole", "iam:GetRole", "iam:ListRolePolicies", "iam:ListAttachedRolePolicies",
+          "iam:GetRolePolicy",
         ]
         Effect   = "Allow"
         Resource = "*"
