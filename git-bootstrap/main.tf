@@ -107,7 +107,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
         Action = [
           "ec2:CreateVpc", "ec2:CreateVpcEndpoint", "ec2:DeleteVpc", "ec2:DeleteVpcEndpoint", "ec2:DescribeVpcs", "ec2:ModifyVpcAttribute",
           "ec2:AcceptVpcEndpointConnections", "ec2:DescribeVpcEndpoints", "ec2:DescribeVpcAttribute", "ec2:ModifyVpcEndpoint",
-          "ec2:CreateNatGateway", "ec2:DeleteNatGateway", "ec2:DescribeNatGateway", "ec2:CreateTags",
+          "ec2:CreateNatGateway", "ec2:DeleteNatGateway", "ec2:DescribeNatGateways", "ec2:CreateTags",
           "ec2:CreateSubnet", "ec2:DeleteSubnet", "ec2:DescribeSubnets", "ec2:ModifySubnetAttribute",
           "ec2:DeleteInternetGateway", "ec2:CreateInternetGateway", "ec2:AttachInternetGateway", "ec2:DetachInternetGateway",
           "ec2:CreateRouteTable", "ec2:DescribeRouteTables", "ec2:AssociateRouteTable", "ec2:CreateRoute", "ec2:DeleteRoute",
@@ -127,6 +127,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
           "elasticloadbalancing:ModifyTargetGroup", "elasticloadbalancing:DescribeTags",
           "elasticloadbalancing:ModifyTargetGroupAttributes", "elasticloadbalancing:DescribeLoadBalancers", "elasticloadbalancing:DescribeListeners", "elasticloadbalancing:ModifyListener",
           "elasticloadbalancing:DeleteListener", "elasticloadbalancing:RegisterTargets", "elasticloadbalancing:DeregisterTargets", "elasticloadbalancing:DescribeTargetGroupAttributes",
+          "elasticloadbalancing:ModifyLoadBalancerAttributes",
           "ec2:RunInstances", "ec2:TerminateInstances", "ec2:DescribeInstances",
           "ec2:DescribeInternetGateways", "ec2:DescribePrefixLists", "ec2:RevokeSecurityGroupEgress",
           "ec2:DescribeNetworkInterfaces",
@@ -138,7 +139,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
         Sid = "FrontendPermission"
         Action = [
           "cloudfront:UpdateDistribution", "cloudfront:CreateDistribution", "cloudfront:CreateCachePolicy", "cloudfront:CreateOriginAccessControl",
-          "cloudfront:GetOriginAccessControl", "cloudfront:GetCachePolicy", "cloudfront:TagResource",
+          "cloudfront:GetOriginAccessControl", "cloudfront:GetCachePolicy", "cloudfront:TagResource", "cloudfront:GetDistribution",
           "cloudfront:DeleteCachePolicy", "cloudfront:DeleteDistribution", "cloudfront:DeleteOriginAccessControl",
           "route53:ListHostedZones", "route53:ListResourceRecordSets", "route53:GetChange",
           "acm:DeleteCertificate", "acm:DescribeCertificate", "acm:ListCertificates", "acm:ImportCertificate", "acm:RequestCertificate",
@@ -167,6 +168,33 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
         Sid      = "SubnetGroupPermission"
         Action   = ["rds:CreateDBSubnetGroup", "rds:DeleteDBSubnetGroup", "rds:DescribeDBSubnetGroups", ]
         Effect   = "Allow"
+        Resource = "*"
+      },
+      {
+        Sid    = "SecretsManagerForRDS"
+        Effect = "Allow"
+
+        Action = [
+          "secretsmanager:CreateSecret",
+          "secretsmanager:DescribeSecret",
+          "secretsmanager:GetSecretValue",
+          "secretsmanager:PutSecretValue",
+          "secretsmanager:UpdateSecret",
+          "secretsmanager:DeleteSecret",
+          "secretsmanager:TagResource"
+        ]
+
+        Resource = "*"
+      },
+      {
+        Sid    = "KMSForRDSSecrets"
+        Effect = "Allow"
+
+        Action = [
+          "kms:DescribeKey",
+          "kms:CreateGrant"
+        ]
+
         Resource = "*"
       },
       {
@@ -206,10 +234,13 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
 
           "s3:GetBucketRequestPayment",
           "s3:GetBucketLogging",
+
           "s3:GetLifecycleConfiguration",
           "s3:GetReplicationConfiguration",
           "s3:GetBucketObjectLockConfiguration",
+
           "s3:PutBucketOwnershipControls",
+          "s3:GetBucketOwnershipControls",
         ]
 
         Resource = "arn:aws:s3:::frontend-bucket-version-9250"
@@ -284,7 +315,7 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
         Action = [
           "iam:DeleteInstanceProfile", "iam:CreateInstanceProfile", "iam:AddRoleToInstanceProfile", "iam:AttachRolePolicy", "iam:PutRolePolicy",
           "iam:GetInstanceProfile", "iam:RemoveRoleFromInstanceProfile", "iam:CreateRole", "iam:GetRole", "iam:ListRolePolicies", "iam:ListAttachedRolePolicies",
-          "iam:GetRolePolicy",
+          "iam:GetRolePolicy", "iam:DetachRolePolicy", "iam:DeleteRolePolicy"
         ]
         Effect   = "Allow"
         Resource = "*"
