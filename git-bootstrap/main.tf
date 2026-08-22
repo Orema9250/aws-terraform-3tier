@@ -96,7 +96,8 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
           "cloudwatch:GetMetricStatistics",
           "cloudwatch:ListMetrics",
           "cloudwatch:TagResource",
-          "cloudwatch:UntagResource"
+          "cloudwatch:UntagResource",
+          "cloudwatch:ListTagsForResource",
         ]
 
         Resource = "*"
