@@ -277,13 +277,20 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
 
       },
       {
+        Sid    = "HostedZones"
+        Effect = "Allow"
+        Action = [
+          "route53:ListHostedZones",
+        ]
+        Resource = "*"
+      },
+      {
         Sid    = "HostedZonePermissions"
         Effect = "Allow"
         Action = [
           "route53:GetHostedZone",
           "route53:ChangeResourceRecordSets",
           "route53:ListTagsForResource",
-          "route53:ListHostedZones",
           "route53:ListResourceRecordSets",
           "route53:GetChange",
         ]
