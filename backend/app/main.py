@@ -8,7 +8,7 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:8080",
         "http://127.0.0.1:8080",
-	"https://orema-devops.xyz",
+	    "https://orema-devops.xyz",
     ],
     allow_credentials=True,
     allow_methods=["*"],

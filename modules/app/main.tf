@@ -70,10 +70,15 @@ resource "aws_lb_target_group" "app_target_group" {
     create_before_destroy = true
   }
   health_check {
-    enabled  = true
-    protocol = "HTTP"
-    path     = "/"
-    port     = "traffic-port"
+    enabled             = true
+    path                = "/"
+    protocol            = "HTTP"
+    port                = "8000"
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+    timeout             = 5
+    interval            = 30
+    matcher             = "200"
   }
 }
 
@@ -209,7 +214,26 @@ resource "aws_autoscaling_group" "app_asg" {
     id      = aws_launch_template.app_launch_template.id
     version = "$Latest"
   }
+  instance_refresh {
+    strategy = "Rolling"
+
+    preferences {
+      min_healthy_percentage = 50
+      max_healthy_percentage = 100
+      instance_warmup        = 300
+      checkpoint_percentages = [ 1, 20 , 100 ]
+      checkpoint_delay       = 300
+      alarm_specification {
+        alarms = [
+          "backend-unhealthy-hosts"
+        ]
+      }
+      auto_rollback = true
+   }
+ 
+  }
   target_group_arns = [aws_lb_target_group.app_target_group.arn]
+
 }
 
 
@@ -274,15 +298,25 @@ data "aws_iam_policy_document" "sqs_queue_policy" {
   }
 }
 
-
-
-
-
-
-
-
-
-
+resource "aws_cloudwatch_metric_alarm" "unhealthyhosts" {
+  alarm_name          = "backend-unhealthy-hosts"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = 1
+  metric_name         = "UnHealthyHostCount"
+  namespace           = "AWS/ApplicationELB"
+  period              = 60
+  statistic           = "Maximum"
+  treat_missing_data  = "notBreaching"
+  threshold           = 1
+  alarm_description   = "Number of unhealthy nodes in Target Group"
+  actions_enabled     = "true"
+  alarm_actions       = [aws_sns_topic.user_updates.arn]
+  ok_actions          = [aws_sns_topic.user_updates.arn]
+  dimensions = {
+    TargetGroup  = aws_lb_target_group.app_target_group.arn_suffix
+    LoadBalancer = aws_lb.app_lb.arn_suffix
+  }
+}
 
 
 
