@@ -7,6 +7,12 @@ on:
     types: [completed]
     branches: ["main"]
 
+
+concurrency:
+  group: ecr-backend
+  cancel-in-progress: false
+
+
 permissions:
   id-token: write
   contents: read
