@@ -221,7 +221,7 @@ resource "aws_autoscaling_group" "app_asg" {
       min_healthy_percentage = 50
       max_healthy_percentage = 100
       instance_warmup        = 300
-      checkpoint_percentages = [ 1, 20 , 100 ]
+      checkpoint_percentages = [1, 20, 100]
       checkpoint_delay       = 300
       alarm_specification {
         alarms = [
@@ -229,8 +229,8 @@ resource "aws_autoscaling_group" "app_asg" {
         ]
       }
       auto_rollback = true
-   }
- 
+    }
+
   }
   target_group_arns = [aws_lb_target_group.app_target_group.arn]
 
