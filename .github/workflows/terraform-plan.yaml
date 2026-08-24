@@ -66,6 +66,7 @@ jobs:
           domain_name             = "orema-devops.xyz"
           bucket_name             = "frontend-bucket-version-9250"
           api_domain_name         = "api.orema-devops.xyz"
+          ecr_image_tag           = "${{ github.sha }}"
           EOF
 
       - name: Select Terraform workspace
