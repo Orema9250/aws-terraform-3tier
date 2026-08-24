@@ -50,10 +50,15 @@ jobs:
           echo "Deploying image:"
           echo "$IMAGE_TAG"
 
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.15.7
       
       - name: Terraform Init
         working-directory: ${{ env.TF_WORKING_DIR }}
         run: terraform init --reconfigure
+
 
       - name: Select Terraform workspace
         working-directory: ${{ env.TF_WORKING_DIR }}
