@@ -94,15 +94,16 @@ jobs:
           terraform plan \
           -input=false \
           -var="ecr_image_tag=$IMAGE_TAG" \
-          
+          -out=tfplan
 
       - name: Terraform Apply
         working-directory: ${{ env.TF_WORKING_DIR }}
         run: |
           terraform apply \
           -input=false \ 
-          -auto-approve 
-   
+          -auto-approve \ 
+          tfplan 
+
       - name: Verify Applicaton
         run: |
           echo "Waiting for ap to become healthy"
