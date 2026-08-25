@@ -102,7 +102,6 @@ jobs:
           echo "Waiting for ap to become healthy"
           for i in {1..20} ; do
             STATUS = $(curl  --fail --silent https://api.orema-devops.xyz/health || true)
-            )
             echo "Http Status: $STATUS"  
           
            
