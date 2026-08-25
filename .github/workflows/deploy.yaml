@@ -97,22 +97,23 @@ jobs:
         working-directory: ${{ env.TF_WORKING_DIR }}
         run: terraform apply -input=false -auto-approve tfplan 
 
-      - name: Verify Applicaton
+      - name: Verify Application
         run: |
           echo "Waiting for app to become healthy"
+
           for i in {1..20}; do
-            STATUS=$(curl  --fail --silent https://api.orema-devops.xyz/health || true)
-            echo "Http Status: $STATUS"  
-          
-           
+            STATUS=$(curl --fail --silent https://api.orema-devops.xyz/health || true)
+
+            echo "Response: $STATUS"
+
             if [ "$STATUS" = '{"status":"healthy"}' ]; then
-            echo "Application is healthy!"
-            exit 0
+              echo "Application is healthy!"
+              exit 0
             fi
 
-
-            echo " Application not ready .Attempt $i/20 failed ..."
+            echo "Application not ready. Attempt $i/20 failed..."
             sleep 15
           done
+
           echo "Application Health Verification Failed"
           exit 1
