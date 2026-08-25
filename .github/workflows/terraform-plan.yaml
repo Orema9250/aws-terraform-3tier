@@ -78,13 +78,14 @@ jobs:
 
       - name: Terraform Plan
         run: | 
-          terraform plan \ 
+          terraform plan \
             -input=false \
+            -out==tfplan \
             
 
       - name: Terraform Apply
         run: 
-          terraform apply \ 
+          terraform apply \
             -auto-approve \
-            -input=false \
+            -input=false
             
