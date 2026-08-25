@@ -93,18 +93,18 @@ jobs:
         working-directory: ${{ env.TF_WORKING_DIR }}
         run: |
           terraform plan \
-          -input=false \
-          -var="api_domain_name=$API_DOMAIN_NAME" \
-          -var="ecr_image_tag=$IMAGE_TAG" \
-          -out=tfplan
+            -input=false \
+            -var="api_domain_name=$API_DOMAIN_NAME" \
+            -var="ecr_image_tag=$IMAGE_TAG" \
+            -out=tfplan
 
       - name: Terraform Apply
         working-directory: ${{ env.TF_WORKING_DIR }}
         run: |
           terraform apply \
-          -input=false \ 
-          -auto-approve \ 
-          tfplan 
+            -input=false \ 
+            -auto-approve \ 
+            tfplan 
 
       - name: Verify Applicaton
         run: |
