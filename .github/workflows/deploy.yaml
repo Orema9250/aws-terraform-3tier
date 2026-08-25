@@ -65,16 +65,29 @@ jobs:
         run: |
           terraform workspace select dev || terraform workspace new dev
 
+      - name: Create terraform.tfvars
+        run: |
+          cat > terraform.tfvars <<EOF
+          region                  = "us-east-1"
+          api_domain_name         = "api.orema-devops.xyz"
+          domain_name             = "orema-devops.xyz"
+          ecr_image_tag           = "${{ github.sha }}"
+          EOF
+
       - name: Terraform Plan
         working-directory: ${{ env.TF_WORKING_DIR }}
         run: |
           terraform plan \
+          -input=false \
           -var="ecr_image_tag=$IMAGE_TAG" \
           
 
       - name: Terraform Apply
         working-directory: ${{ env.TF_WORKING_DIR }}
-        run: terraform apply -auto-approve 
+        run: |
+          terraform apply \
+          -input=false \ 
+          -auto-approve 
    
       - name: Verify Applicaton
         run: |
