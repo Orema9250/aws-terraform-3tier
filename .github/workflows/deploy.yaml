@@ -102,7 +102,7 @@ jobs:
           echo "Waiting for app to become healthy"
 
           for i in {1..20}; do
-            STATUS=$(curl --fail --silent https://api.orema-devops.xyz/health || true)
+            STATUS=$(curl --fail --silent https://api.orema-devops.xyz/api/health || true)
 
             echo "Response: $STATUS"
 
