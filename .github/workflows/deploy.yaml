@@ -70,11 +70,11 @@ jobs:
         run: |
           terraform plan \
           -var="ecr_image_tag=$IMAGE_TAG" \
-          -out=tfplan
+          
 
       - name: Terraform Apply
         working-directory: ${{ env.TF_WORKING_DIR }}
-        run: terraform apply -auto-approve -out=tfplan
+        run: terraform apply -auto-approve 
    
       - name: Verify Applicaton
         run: |
