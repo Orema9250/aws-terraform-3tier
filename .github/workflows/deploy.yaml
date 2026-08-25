@@ -65,14 +65,28 @@ jobs:
         run: |
           terraform workspace select dev || terraform workspace new dev
 
-      - name: Create terraform.tfvars
+      - name: Create Terraform variables
         run: |
           cat > terraform.tfvars <<EOF
           region                  = "us-east-1"
-          api_domain_name         = "api.orema-devops.xyz"
+          enable_dns_hostnames    = true
+          map_public_ip_on_launch = true
+          availability_zone       = ["us-east-1a", "us-east-1b"]
+          cidr_block              = "10.0.0.0/16"
+          cidr_ipv4               = "0.0.0.0/0"
+          device_name             = "/dev/xvda"
+          image_id                = "ami-0b6d9d3d33ba97d99"
+          private_dns_enabled     = true
+          aws_account_id          = "556173312932"
+          storage_type            = "gp2"
+          engine_version          = "17"
+          db_name                 = "mydatabase"
           domain_name             = "orema-devops.xyz"
+          bucket_name             = "frontend-bucket-version-9250"
+          api_domain_name         = "api.orema-devops.xyz"
           ecr_image_tag           = "${{ github.sha }}"
           EOF
+
 
       - name: Terraform Plan
         working-directory: ${{ env.TF_WORKING_DIR }}
