@@ -128,7 +128,7 @@ resource "aws_iam_role" "instance_role" {
   path               = "/"
   assume_role_policy = data.aws_iam_policy_document.app_role.json
 }
-resource "aws_iam_role_policy_attachment" "test_attach" {
+resource "aws_iam_role_policy_attachment" "secrets_manager" {
   role       = aws_iam_role.instance_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
@@ -152,7 +152,7 @@ resource "aws_iam_policy" "secrets_manager" {
     ]
   })
 }
-resource "aws_iam_role_policy_attachment" "test_attach_secret" {
+resource "aws_iam_role_policy_attachment" "secrets_manager_attachment" {
   role       = aws_iam_role.instance_role.name
   policy_arn = aws_iam_policy.secrets_manager.arn
 }
@@ -177,6 +177,7 @@ resource "aws_launch_template" "app_launch_template" {
       ecr_image     = var.ecr_image_url
       ecr_image_tag = var.ecr_image_tag
       region        = var.region
+      db_secret_arn = var.db_secret_arn
     })
   )
 }
