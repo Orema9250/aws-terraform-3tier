@@ -41,6 +41,9 @@ module "app" {
   api_cert_arn       = module.frontend.certificate_arn
   ecr_image_url      = module.ecr.ecr_image_url
   ecr_image_tag      = var.ecr_image_tag
+  db_port            = module.rds.db_port
+  db_endpoint        = module.rds.db_endpoint
+  db_name            = module.rds.db_name
 }
 
 module "rds" {
@@ -70,4 +73,5 @@ module "frontend" {
 module "ecr" {
   source = "./modules/ecr"
   region = var.region
+
 }

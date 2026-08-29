@@ -25,11 +25,23 @@ mkdir -p /run/backend
 chmod 700 /run/backend
 
 # Retrieve database credentials from AWS Secrets Manager
-aws secretsmanager get-secret-value \
+DB_SECRET=$(aws secretsmanager get-secret-value \
   --secret-id "${db_secret_arn}" \
   --query SecretString \
-  --output text > /run/backend/db-secret.json
+  --output text)
 
+DB_USERNAME=$(echo "$DB_SECRET" | python3 -c 'import sys,json; print(json.load(sys.stdin)["username"])')
+DB_PASSWORD=$(echo "$DB_SECRET" | python3 -c 'import sys,json; print(json.load(sys.stdin)["password"])')
+
+cat > /run/backend/db-secret.json <<EOF
+{
+  "username": "$DB_USERNAME",
+  "password": "$DB_PASSWORD",
+  "host": "${db_endpoint}",
+  "port": ${db_port},
+  "dbname": "${db_name}"
+}
+EOF
 # Restrict access to the secret
 chmod 600 /run/backend/db-secret.json
 

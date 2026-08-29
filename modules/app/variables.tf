@@ -75,3 +75,15 @@ variable "ecr_image_tag" {
   description = "Docker image tag to deploy"
   type        = string
 }
+
+variable "db_endpoint" {
+  type = string
+}
+
+variable "db_port" {
+  type = number
+}
+
+variable "db_name" {
+  type = string
+}

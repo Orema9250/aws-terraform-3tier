@@ -178,6 +178,9 @@ resource "aws_launch_template" "app_launch_template" {
       ecr_image_tag = var.ecr_image_tag
       region        = var.region
       db_secret_arn = var.db_secret_arn
+      db_port       = var.db_port
+      db_name       = var.db_name
+      db_endpoint   = var.db_endpoint
     })
   )
 }
