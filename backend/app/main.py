@@ -41,6 +41,11 @@ def health():
         "status": "healthy"
     }
 
+@app.get("/api/health")
+def health():
+    return {
+        "status": "healthy"
+}
 
 @app.get("/api/db-health")
 def database_health():
