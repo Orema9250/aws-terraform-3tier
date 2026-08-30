@@ -34,13 +34,6 @@ def get_message():
     }
 
 
-@app.get("/api/health")
-def health():
-    raise HTTPException(
-        status_code=503,
-        detail="Intentional deployment failure test"
-    )
-
 
 @app.get("/health")
 def health():
