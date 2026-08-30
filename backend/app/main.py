@@ -37,7 +37,7 @@ def get_message():
 @app.get("/api/health")
 def health_check():
     return {
-        "status": "healthy"
+        "status": "unhealthy"
     }
 
 
