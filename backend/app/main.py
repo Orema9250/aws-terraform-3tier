@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
+from fastapi import HTTPException
 from app.database import check_database
 
 
@@ -35,10 +35,11 @@ def get_message():
 
 
 @app.get("/api/health")
-def health_check():
-    return {
-        "status": "unhealthy"
-    }
+def health():
+    raise HTTPException(
+        status_code=503,
+        detail="Intentional deployment failure test"
+    )
 
 
 @app.get("/health")
