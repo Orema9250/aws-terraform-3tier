@@ -4,7 +4,7 @@ provider "aws" {
 
 resource "aws_security_group" "lb_app_sg" {
   name        = "lb_app_sg"
-  description = "Allow traffic from web sg"
+  description = "Allow traffic from web"
   vpc_id      = var.vpc_id
 
   tags = {

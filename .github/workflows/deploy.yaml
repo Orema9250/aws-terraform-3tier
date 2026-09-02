@@ -19,6 +19,7 @@ env:
   ECR_REPOSITORY: backend
   TF_WORKING_DIR: .
   API_DOMAIN_NAME: api.orema-devops.xyz
+  SNS_TOPIC_ARN: arn:aws:sns:us-east-1:556173312932:user-updates-topic
 
 jobs:
   deploy-success:
@@ -117,3 +118,23 @@ jobs:
 
           echo "Application Health Verification Failed"
           exit 1
+
+      - name: Send SNS notification
+        if:  always()
+        env:
+          STATUS: ${{ job.status }}
+        run: |
+          aws sns publish \
+            --topic-arn "$SNS_TOPIC_ARN" \
+            --subject "Orema DevOps Deployment: ${STATUS}" \
+            --message "Deployment Status: ${STATUS}
+        
+          Repository: ${{ github.repository }}
+          Branch: ${{ github.ref_name }}
+          Commit: ${{ github.sha }}
+
+          
+          Health Endpoint: https://api.orema-devops.xyz/api/health
+
+          GitHub Actions Run:
+          ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"

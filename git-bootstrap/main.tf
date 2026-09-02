@@ -423,9 +423,18 @@ resource "aws_iam_role_policy" "github_terraform_role_policy" {
           "sns:SetTopicAttributes",
           "sns:GetTopicAttributes",
           "sns:ListTagsForResource",
+
         ]
         Effect   = "Allow"
         Resource = "*"
+      },
+      {
+        Sid = "SNSPublishTopic"
+        Action = [
+          "sns:Publish",
+        ]
+        Effect   = "Allow"
+        Resource = "arn:aws:sns:us-east-1:556173312932:user-updates-topic"
       },
 
       {
