@@ -8,7 +8,7 @@ The infrastructure is provisioned with **Terraform**, the backend runs as a Dock
 
 ## Architecture
 
-![Architecture Diagram](docs/teeraform-3tier.drawio.svg)
+![Architecture Diagram](docs/terraform3-tier.drawio.svg)
 
 ### Application Flow
 
