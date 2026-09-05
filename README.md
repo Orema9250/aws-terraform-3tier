@@ -1,6 +1,6 @@
 # AWS 3-Tier Architecture | Terraform + CI/CD
 
-A production-style AWS 3-tier application built to demonstrate **Infrastructure as Code, CI/CD, high availability, cloud security, monitoring, and failure recovery**.
+A production-style AWS 3-tier application built to demonstrate **Infrastructure as Code,CI/CD, high availability, cloud security, monitoring, and failure recovery**.
 
 The infrastructure is provisioned with **Terraform**, the backend runs as a Dockerized FastAPI application on an **EC2 Auto Scaling Group**, PostgreSQL runs privately on **Amazon RDS**, and deployments are automated with **GitHub Actions and AWS OIDC**.
 
